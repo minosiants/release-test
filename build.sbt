@@ -21,23 +21,20 @@ lazy val root = (project in file("."))
     ),
     addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
   ).settings(releaseProcessSettings)
-   //.settings(publishSettings)
    .settings(ghRepoSettings)
 
-/*lazy val publishSettings = Seq(
-  githubOwner := "minosiants",
-  githubRepository := "release-test",
- resolvers += Resolver.githubPackages("minosiants",""),
-  githubActor := "minosiants",//sys.env.get("GITHUB_ACTOR").getOrElse(""),
- githubTokenSource := TokenSource.Environment("GITHUB_TOKEN")
-)*/
 
 lazy val ghRepoSettings = Seq(
-  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants"),
-  credentials += Credentials("Githab packages", "maven.pkg.github.com", "minosiants", "50a0b2b9affa9c4b954798d624355f48c46dfcbbotbotbot4")
-)
-import ReleaseTransformations._
+  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants/release-test"),
+  credentials ++= {
+    (sys.env.get("GITHUB_ACTOR"), sys.env.get("GITHUB_TOKEN")) match {
+      case (Some(user), Some(pass)) =>
+        Seq(Credentials("GitHub Package Registry", "maven.pkg.github.com", user, pass))
+      case _ => Nil
+    }
+    })
 
+import ReleaseTransformations._
 lazy val releaseProcessSettings = Seq(
   releaseIgnoreUntrackedFiles := true,
   releaseProcess := Seq[ReleaseStep](checkSnapshotDependencies,
