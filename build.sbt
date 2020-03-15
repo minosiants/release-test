@@ -21,16 +21,21 @@ lazy val root = (project in file("."))
     ),
     addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
   ).settings(releaseProcessSettings)
-   .settings(publishSettings)
+   //.settings(publishSettings)
+   .settings(ghRepoSettings)
 
-lazy val publishSettings = Seq(
+/*lazy val publishSettings = Seq(
   githubOwner := "minosiants",
   githubRepository := "release-test",
  resolvers += Resolver.githubPackages("minosiants",""),
-  githubActor := sys.env.get("GITHUB_ACTOR").getOrElse(""),
+  githubActor := "minosiants",//sys.env.get("GITHUB_ACTOR").getOrElse(""),
  githubTokenSource := TokenSource.Environment("GITHUB_TOKEN")
-)
+)*/
 
+lazy val ghRepoSettings = Seq(
+  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants"),
+  credentials += Credentials("Githab packages", "maven.pkg.github.com", "minosiants", "50a0b2b9affa9c4b954798d624355f48c46dfcbbotbotbot4")
+)
 import ReleaseTransformations._
 
 lazy val releaseProcessSettings = Seq(
