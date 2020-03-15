@@ -21,8 +21,18 @@ lazy val root = (project in file("."))
     ),
     addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
   ).settings(releaseProcessSettings)
+   .settings(publishSettings)
+
+lazy val publishSettings = Seq(
+  githubOwner := "minosiants",
+  githubRepository := "release-test",
+ resolvers += Resolver.githubPackages("minosiants",""),
+  githubActor := sys.env.get("GITHUB_ACTOR").getOrElse(""),
+ githubTokenSource := TokenSource.Environment("GITHUB_TOKEN")
+)
 
 import ReleaseTransformations._
+
 lazy val releaseProcessSettings = Seq(
   releaseIgnoreUntrackedFiles := true,
   releaseProcess := Seq[ReleaseStep](checkSnapshotDependencies,
