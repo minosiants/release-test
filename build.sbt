@@ -25,7 +25,7 @@ lazy val root = (project in file("."))
 
 
 lazy val ghRepoSettings = Seq(
-  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants/release-test"),
+  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants"),
   credentials ++= {
     (sys.env.get("GITHUB_ACTOR"), sys.env.get("GITHUB_TOKEN")) match {
       case (Some(user), Some(pass)) =>
