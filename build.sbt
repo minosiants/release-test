@@ -26,14 +26,11 @@ lazy val root = (project in file("."))
 
 
 lazy val ghRepoSettings = Seq(
-  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants/release-test"),
-  credentials ++= {
-    (sys.env.get("GITHUB_ACTOR"), sys.env.get("GITHUB_TOKEN")) match {
-      case (Some(user), Some(pass)) =>
-        Seq(Credentials("GitHub Package Registry", "maven.pkg.github.com", user, pass))
-      case _ => Nil
-    }
-    })
+  githubOwner := "minosiants",
+    githubRepository := "release-test",
+  githubTokenSource := TokenSource.Environment("GITHUB_TOKEN"),
+  resolvers += Resolver.githubPackages("minosiants")
+)
 
 import ReleaseTransformations._
 lazy val releaseProcessSettings = Seq(
