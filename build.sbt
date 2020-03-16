@@ -12,6 +12,7 @@ lazy val root = (project in file("."))
     organization := "com.minosiatns",
     name := "release-test",
     scalaVersion := "2.13.1",
+    crossScalaVersions := Seq("2.12.4", "2.13.1"),
     libraryDependencies ++= Seq(
       "org.typelevel"   %% "cats-core"                  % catsVersion,
       "org.typelevel"   %% "cats-effect"                % catsEffectVersion,
@@ -25,7 +26,7 @@ lazy val root = (project in file("."))
 
 
 lazy val ghRepoSettings = Seq(
-  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants"),
+  publishTo := Some("Githab packages" at "https://maven.pkg.github.com/minosiants/release-test"),
   credentials ++= {
     (sys.env.get("GITHUB_ACTOR"), sys.env.get("GITHUB_TOKEN")) match {
       case (Some(user), Some(pass)) =>
@@ -36,6 +37,7 @@ lazy val ghRepoSettings = Seq(
 
 import ReleaseTransformations._
 lazy val releaseProcessSettings = Seq(
+  releaseCrossBuild := true,
   releaseIgnoreUntrackedFiles := true,
   releaseProcess := Seq[ReleaseStep](checkSnapshotDependencies,
     inquireVersions,
